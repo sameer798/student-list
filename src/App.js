@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import AddStudentButton from './AddStudentButton';
 import './App.css';
+import { useState } from 'react';
+import StudentProvider from './store/StudentProvider';
+
+import FormInput from './FormInput';
+import StudentList from './StudentList';
 
 function App() {
+
+  const [showForm, setShowForm] = useState(true);
+
+  const formShowHandler = ()=>{
+    setShowForm(false);
+  }
+  const formtHideHandler = () =>{
+    setShowForm(true)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StudentProvider>
+    <AddStudentButton onShow={formShowHandler}/>
+    {!showForm && <FormInput  onClose={formtHideHandler}/>}
+    <StudentList/>
+    </StudentProvider>
+   
   );
 }
 
