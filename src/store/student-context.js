@@ -5,7 +5,8 @@ const StudentContext = React.createContext({
   items: [],
   addItem: (item) => {},
   deleteItem: (id) => {},
-  editItem : (id)=>{}
+  editItem : (id)=>{},
+  studentToEdit : null
 });
 
 export default StudentContext;

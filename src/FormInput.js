@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Card from "./Card";
 import Modal from "./Modal";
 import { useRef } from "react";
@@ -20,6 +20,14 @@ const FormInput = (props) => {
   const nameRef = useRef();
   const mobRef = useRef();
   const addressRef = useRef();
+
+  useEffect(() => {
+    if (ctx.studentToEdit) {
+      nameRef.current.value = ctx.studentToEdit.name;
+      mobRef.current.value = ctx.studentToEdit.mobile;
+      addressRef.current.value = ctx.studentToEdit.address;
+    }
+  }, [ctx.studentToEdit]);
 
   const submitHandler = (e) => {
     e.preventDefault();

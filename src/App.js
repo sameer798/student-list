@@ -17,7 +17,7 @@ function App() {
     setShowForm(true)
   }
   return (
-    <StudentProvider>
+    <StudentProvider onShow={formShowHandler}>
     <AddStudentButton onShow={formShowHandler}/>
     {!showForm && <FormInput  onClose={formtHideHandler}/>}
     <StudentList/>
