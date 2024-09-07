@@ -29,7 +29,7 @@ const FormInput = (props) => {
     }
   }, [ctx.studentToEdit]);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     const name = nameRef.current.value;
     const mobile = mobRef.current.value;
@@ -42,7 +42,23 @@ const FormInput = (props) => {
       mobile: mobile,
       address: address,
     };
-    ctx.addItem(data)
+    try {
+      const response = await fetch('https://crudcrud.com/api/dafb95d2ecc8484ab657274713e9bbfd/students',{
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      const studentData = await response.json();
+      ctx.addItem(studentData)
+     if(!response.ok){
+      throw new Error(response.error)
+     }
+    } catch (error) {
+      alert(error.message)
+    }
+    
     nameRef.current.value = "";
     mobRef.current.value = "";
     addressRef.current.value = "";

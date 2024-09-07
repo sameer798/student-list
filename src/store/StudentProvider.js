@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import StudentContext from "./student-context";
 
 const studentReducer = (state, action) => {
@@ -33,6 +33,13 @@ const studentReducer = (state, action) => {
       studentToEdit: existingStudent,
     };
   }
+  if (action.type === "SET_STUDENTS") {
+    return {
+      ...state,
+      items: action.items,
+      totalStudents: action.items.length,
+    };
+  }
   return state;
 };
 
@@ -42,6 +49,23 @@ const StudentProvider = (props) => {
     totalStudents: 0,
     studentToEdit : null
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://crudcrud.com/api/dafb95d2ecc8484ab657274713e9bbfd/students');
+        const data = await response.json();
+        
+        // Dispatch the fetched data to the reducer
+        dispatchSudentState({ type: "SET_STUDENTS", items: data });
+        
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   const addStudentHander = (item) => {
     dispatchSudentState({ type: "ADD", item: item });
